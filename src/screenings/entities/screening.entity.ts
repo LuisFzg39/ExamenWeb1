@@ -1,19 +1,33 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { RoomEntity } from 'src/rooms/entities/room.entity';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 
-@Entity('rooms')
+@Entity('screenings')
 export class ScreeningEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Column({ length: 100 })
+  @Column({ length: 120 })
   movieTitle!: string;
 
-  @Column({ length: 150 })
-  capacity!: number;
+  @CreateDateColumn({ name: 'starts_at' })
+  startsAt!: Date;
 
-  @OneToMany(() => ScreeningEntity, (order) => order.customer)
-  orders!: OrderEntity[];
+  @Column({ type: 'varchar', length: 20, default: 'scheduled' })
+  status!: 'scheduled' | 'cancelled';
+
+  @ManyToOne(() => RoomEntity, (screening) => screening.rooms, {
+    nullable: false,
+  })
+  @JoinColumn({ name: 'room_id' })
+  screening!: ScreeningEntity;
 
   
 }

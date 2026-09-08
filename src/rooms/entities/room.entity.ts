@@ -1,3 +1,4 @@
+import { ScreeningEntity } from 'src/screenings/entities/screening.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 
@@ -12,8 +13,7 @@ export class RoomEntity {
   @Column({ length: 150 })
   capacity!: number;
 
-  @OneToMany(() => ScreeningEntity, (order) => order.customer)
-  orders!: OrderEntity[];
-
+  @OneToMany(() => ScreeningEntity, (room) => room.screening)
+  rooms!: RoomEntity[];
   
 }
